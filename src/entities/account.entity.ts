@@ -1,3 +1,4 @@
+import { IsNotEmpty } from "class-validator";
 import { BaseEntity, Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Transaction } from "./transaction.entity";
 import { User } from "./user.entity";
@@ -8,7 +9,7 @@ export class Account extends BaseEntity{
     @PrimaryGeneratedColumn()
     id:number;
 
-    @Column() 
+    @Column()
     account_name: string;
 
     @ManyToOne(()=> User, (user)=> user.accounts ) 

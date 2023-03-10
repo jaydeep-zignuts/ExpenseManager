@@ -58,6 +58,14 @@
     <div class="container-xxl">
       <div class="authentication-wrapper authentication-basic container-p-y">
         <div class="authentication-inner">
+           {{#if msg}}
+           {{#each msg}}
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong><p>{{ this }}</p></strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            {{/each}}
+          {{/if}}
           <div class="card">
             <div class="card-body">
               <div class="app-brand justify-content-center">
@@ -122,9 +130,7 @@
               </div>
               <!-- /Logo -->
               <p class="mb-4">Make Your Expance Management Easy </p>
-              {{#each msg}}
-              <p>{{ this }}</p>
-              {{/each}}
+             
               <form id="formAuthentication" class="mb-3 needs-validation" action="/register" method="post" novalidate>
                 <div class="mb-3">
                   <label for="name" class="form-label">Name</label>

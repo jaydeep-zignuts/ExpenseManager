@@ -21,9 +21,9 @@ export class Transaction extends BaseEntity{
     @CreateDateColumn()
     createdAt: Date
 
-    @ManyToOne(()=> Account, (account)=> account.transactions ) 
+    @ManyToOne(()=> Account, (account)=> account.transactions,{onDelete:"CASCADE"} ) 
     @JoinColumn({name: 'account_id' })
-    tr_accounts: Account[]
+    tr_accounts: Account
      
 }  
 

@@ -1,12 +1,13 @@
-import { Body, Controller, Delete, Get, Param, Post, Render, Res, UseFilters, UsePipes, ValidationPipe } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Render, Req, Res, UseFilters, UsePipes, ValidationPipe } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { AccountDto } from "src/dto/account.dto";
 import { UserDto } from "src/dto/user.dto";
 import { AccountService } from "../accounts/accounts.service";
 import { UserService } from "./user.service";
-import * as nodemailer from 'nodemailer';
-import { response, Response } from "express";
-import { HttpBadRequestExceptionFilter } from "src/exceptions/httpBadRequestException.filter";
+import { Request, request, response, Response } from "express";
+import { RegisterBadRequest } from "src/exceptions/registerBadRequest.filter";
+import { QueryFailedExceptionFilter } from "src/exceptions/queryFailedError.filter";
+
 
 @Controller()
 export class UserController {
@@ -20,44 +21,20 @@ export class UserController {
   @Render('register')
   async registerRender() { }
 
-  @Post('register')
+  @Post('register')    
   @UsePipes(ValidationPipe)
-  @UseFilters(HttpBadRequestExceptionFilter)
+  @UseFilters(RegisterBadRequest)
+  @UseFilters(QueryFailedExceptionFilter)
   @Render('login')
-  async createUser(@Body() userData: UserDto, @Body() account: AccountDto) {
-    try{
+  async createUser(@Body() userData: UserDto) {
       const generateUser = await this.userService.insertUser(userData);
       return generateUser;
-    }catch(e){
-      console.log("error is ",e );
-      
-      response.render('register',{e})
-    }
-    
+ 
   }
 
   @Get('')
   @Render('login')
   async loginRender() { }
-
-  // @Post('login')
-  // @Render('home')
-  // async loginChk(
-  // @Body() userData : UserDto,
-  // @Res({ passthrough: true }) response: Response
-  // ){
-  //   const cred = await this.userService.loginchk(userData);
-
-  //   const email = cred.email;
-
-  //   const jwt = await this.jwtService.sign({
-  //     email: email
-  //   });
-
-  //   response.cookie('jwt', jwt , { httpOnly: true });
-  //   return this.accountService.getAccounts(email);
-
-  // }
 
   @Post('logout')
   @Render('login')
@@ -70,21 +47,28 @@ export class UserController {
   @Get('addUser/:id')
   @Render('addUser')
   async addUserToAccount(
-    @Param() aid: AccountDto
+    @Param('id') aid: number
   ) {
-    const allUsers = await this.userService.getAllUser(aid.id);
+    const allUsers = await this.userService.getAllUser(aid);
     return allUsers;
   }
 
   @Post('addUser/:id')
   @Render('home')
   async addUser(
-    @Body() user: UserDto,
-    @Param() id: AccountDto
+    @Body('add_user') user: string,
+    @Param('id') id: number,
+    @Req() req:Request,
   ) {
-    const data = await this.userService.addUser(user["add_user"], id.id);
-    return data;
+   
+    const data = await this.userService.addUser(user, id);
+    
+    const token = req.cookies['jwt'];
+    const jwtData = await this.jwtService.verify(token);
+    const email = jwtData["email"];
+    return this.accountService.getAccounts(email);
+    // return data;
   }
 
 
-}
+}  

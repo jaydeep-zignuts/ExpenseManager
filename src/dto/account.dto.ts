@@ -5,10 +5,11 @@ export class AccountDto {
     
     id:number;
 
-    // @IsNotEmpty({message:'Name field must contain name of account'})
+    @IsNotEmpty({message:'account name field must contain name of account'})
     account_name: string;
 
     userId: number;
 
    
 }
+// partialtypes

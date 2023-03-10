@@ -59,6 +59,14 @@
       <div class="authentication-wrapper authentication-basic container-p-y">
         <div class="authentication-inner">
           <!-- Register -->
+          {{#if msg}}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              <strong> {{#each msg}}
+              <p>{{ this }}</p>
+              {{/each}}</strong>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          {{/if}}
           <div class="card">
             <div class="card-body">
               <!-- Logo -->
@@ -124,7 +132,7 @@
               </div>
               <!-- /Logo -->
 
-              <form id="formAuthentication" class="mb-3 needs-validation" action="/tr/addTransaction/{{ id }}" method="post" novalidate>
+              <form id="formAuthentication" class="mb-3 needs-validation" action="/tr/addTransaction/{{ id }}" method="post" >
                 <div class="mb-3">
                   <label for="transaction_type" class="form-label">Transaction type</label>
                  
@@ -141,11 +149,13 @@
                 <div class="mb-3">
                   <label for="transaction_amount" class="form-label">Transaction Amount</label>
                   <input
-                    type="text"
+                    type="number"
                     class="form-control"
                     id="transaction_amount"
                     name="transaction_amount"
                     placeholder="Enter Transaction Amount"
+                    min="10"
+                    max="50000"
                     autofocus,
                     required
                   />
@@ -154,20 +164,24 @@
                   </div>
                 </div>
                 <div class="mb-3">
-                  <label for="description" class="form-label">Transaction Amount</label>
+                  <label for="description" class="form-label">Transaction description</label>
                   <input
                     type="text"
                     class="form-control"
                     id="description"
                     name="description"
                     placeholder="Enter Transaction description"
+                    minlength="10"
                     autofocus,
                     required
+
                   />
                   <div class="invalid-feedback">
                     description field is required!
                   </div>
                 </div>
+                
+                  
                 
                 <div class="mb-3">
                   <button class="btn btn-primary d-grid w-100" type="submit">Add Transaction </button>
@@ -178,18 +192,24 @@
           <!-- /Register -->
         </div>
       </div>
+       <footer class="content-footer footer bg-footer-theme">
+              <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
+                <div class="mb-2 mb-md-0">
+                  ©
+                  <script>
+                    document.write(new Date().getFullYear());
+                  </script>
+                  
+                  <a href="https://themeselection.com" target="_blank" class="footer-link fw-bolder">ThemeSelection</a>
+                </div>
+                
+              </div>
+            </footer>
     </div>
 
     <!-- / Content -->
 
-    <div class="buy-now">
-      <a
-        href="https://themeselection.com/products/sneat-bootstrap-html-admin-template/"
-        target="_blank"
-        class="btn btn-danger btn-buy-now"
-        >Upgrade to Pro</a
-      >
-    </div>
+    
 
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->

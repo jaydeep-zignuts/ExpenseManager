@@ -5,6 +5,9 @@ import { join } from 'path';
 import { AppModule } from './app.module';
 import * as hbs from 'hbs'
 import { HttpUnauthorizedExceptionFiletr } from './exceptions/httpUnauthorizedException.filter';
+import { ValidationPipe } from '@nestjs/common';
+import { JwtAuthGuard } from './modules/auth/jwt-auth.guard';
+import { LocalAuthGuard } from './modules/auth/local-auth.guard';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, );
@@ -28,8 +31,16 @@ async function bootstrap() {
     }
   });
 
+  hbs.registerHelper('date', function(date) {
+    const day = new Date(date).getDate();
+    const month= new Date(date).getMonth()+1;
+    const year = new Date(date).getFullYear();
+
+    return day + '-' + month+ '-'+ year;
+  });
+
   app.useGlobalFilters(new HttpUnauthorizedExceptionFiletr());
-  // hbs.registerPartials('aside');
+  app.useGlobalPipes(new ValidationPipe());
   await app.listen(3000);
 }
 bootstrap();

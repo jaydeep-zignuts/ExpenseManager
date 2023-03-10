@@ -6,19 +6,19 @@ import { Repository } from "typeorm";
 import * as bcrypt from 'bcrypt';
 import { Account } from "src/entities/account.entity";
 import * as nodemailer from 'nodemailer';
-import { response } from "express";
+import { request, response } from "express";
+import { JwtService } from "@nestjs/jwt";
 
 
 
 @Injectable()
 export class UserService {
   constructor(@InjectRepository(User) private userRepository: Repository<User>,
-    @InjectRepository(Account) private accountRepository: Repository<Account>
-
+    @InjectRepository(Account) private accountRepository: Repository<Account>,
+  private jwtService: JwtService
   ) { }
 
   async insertUser(user: UserDto) {
-    try{
 
     const salt = await bcrypt.genSalt();
     const bcryptPassword = await bcrypt.hash(user.password, salt);
@@ -61,25 +61,9 @@ export class UserService {
       console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
     }
     return { userdata };
-    }catch(e){
-      console.log("eror ",e );
-      
-      return response.render('400',{e} );
-    }
+    
   }
 
-  // async loginchk(user: UserDto) {
-  //   const email = user.email;
-
-  //   const data = await this.userRepository.findOne({ where: { email } });
-
-  //   if (!data) throw new BadRequestException();
-  //   if (!(await bcrypt.compare(user.password, data.password))) throw new UnauthorizedException();
-
-  //   return user;
-
- 
-  // }
   async getUserByEmail(email: string) {
     return await this.userRepository.findOne({ where: { email } });
   }
@@ -98,6 +82,6 @@ export class UserService {
 
     await user.save();
     await account.save();
-
+   
   }
 }

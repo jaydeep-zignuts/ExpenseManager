@@ -11,7 +11,7 @@ import { AccountService } from '../accounts/accounts.service';
 import { AccountsModule } from '../accounts/accounts.module';
 
 @Module({
-  imports: [UsersModule, PassportModule, JwtModule.register({
+  imports: [UsersModule,AccountsModule, PassportModule, JwtModule.register({
     secret: 'secret',
     signOptions: {
       expiresIn: '1d'

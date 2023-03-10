@@ -1,4 +1,4 @@
-import { forwardRef, Module } from '@nestjs/common';
+import { forwardRef, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './modules/users/users.module';
@@ -12,6 +12,8 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
 import { AuthModule } from './modules/auth/auth.module';
 import { APP_FILTER } from '@nestjs/core';
 import { HttpUnauthorizedExceptionFiletr } from './exceptions/httpUnauthorizedException.filter';
+import { JwtAuthMiddleware } from './middleware/jwtAuth.middleware';
+import { TransactionController } from './modules/transaction/transaction.controller';
 
 
 @Module({
@@ -28,7 +30,6 @@ import { HttpUnauthorizedExceptionFiletr } from './exceptions/httpUnauthorizedEx
     forwardRef( ()=> TransactionModule ),
     forwardRef(()=> AuthModule)
     
-
   ],
   controllers: [AppController],
   providers: [AppService],

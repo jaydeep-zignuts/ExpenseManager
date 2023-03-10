@@ -8,15 +8,12 @@ export class TransactionDto{
     @IsNotEmpty({message:'transaction type must contain type of transaction'})
     transaction_type: string;
 
-    @IsNotEmpty({message:'description field must contain description about transaction'})
+    @IsNotEmpty({ message:'description field must contain description about transaction'})
     description: string;
 
-    @IsNotEmpty({message:'transaction amount field must contain description about transaction'})
-    @IsNumber()
+    @IsNotEmpty({ message:'transaction amount field must contain amount' })
     transaction_amount: number;
 
-
-    @IsNotEmpty()
     tr_accounts: number
      
   
