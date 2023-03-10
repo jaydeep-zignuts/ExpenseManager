@@ -57,7 +57,7 @@ export class TransactionService {
         const tr = await this.transactionRepository.createQueryBuilder('tra').leftJoin('tra.tr_accounts', 't').where(`tra.id = ${tid}`).getOne()
  
         const transactions = tr;
-        return { transactions }
+        return { transactions } 
 
     }
     async editTransaction(tid: number, ttype: string, tamt: number, tdesc: string) {
