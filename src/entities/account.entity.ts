@@ -16,8 +16,6 @@ export class Account extends BaseEntity{
     @JoinColumn({name:'user_id'})
     users: User[] 
 
-   
-
     @ManyToMany(()=> User) 
     @JoinTable({ name: 'user_account' })
     us : User[]

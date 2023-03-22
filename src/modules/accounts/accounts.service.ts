@@ -42,7 +42,10 @@ export class AccountService{
         
         // const getaccountid=await this.accountRepository.find({where: { id: user.id }})
         // const allAccount = await this.accountRepository.find({where:{id : userid}});
-        const allAccount = await this.accountRepository.createQueryBuilder('ac').leftJoin('ac.users', 'acc').where(`acc.id = ${userid}`).getMany()
+        const allAccount = await this.accountRepository
+        .createQueryBuilder('ac').
+        leftJoin('ac.users', 'acc')
+        .where(`acc.id = ${userid}`).getMany()
         
         console.log("all Acount >>>>>>>>",allAccount);
         const addedByUser = await this.accountRepository.createQueryBuilder('acus').leftJoin('acus.us','ac_user').where(`ac_user.id=${userid}`).getMany();

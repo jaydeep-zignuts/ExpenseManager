@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Param, Post, Render, Req, UseFilters, UseGuards, UsePipes, ValidationPipe } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Render, Req, UseFilters, UseGuards, UsePipes, ValidationPipe } from "@nestjs/common";
 import { OnEvent } from "@nestjs/event-emitter";
 import { JwtService } from "@nestjs/jwt";
 import { AuthGuard } from "@nestjs/passport";
+import { ApiTags } from "@nestjs/swagger";
 import { Request } from "express";
 import { AccountDto } from "src/dto/account.dto";
 import { TransactionDto } from "src/dto/transaction.dto";
@@ -13,6 +14,7 @@ import { JwtAuthGuard } from "../auth/jwt-auth.guard";
 import { UserService } from "../users/user.service";
 import { TransactionService } from "./transaction.service";
 
+@ApiTags('Transaction')
 @Controller('tr')
 @UseGuards(JwtAuthGuard)
 export class TransactionController {
@@ -111,6 +113,6 @@ export class TransactionController {
         const data1 = await this.jwtService.verify(token);
         const email = data1["email"];
         return await this.accountService.getAccounts(email);
-        
+         
     }
 }

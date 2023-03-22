@@ -7,8 +7,9 @@ import { UserService } from "./user.service";
 import { Request, request, response, Response } from "express";
 import { RegisterBadRequest } from "src/exceptions/registerBadRequest.filter";
 import { QueryFailedExceptionFilter } from "src/exceptions/queryFailedError.filter";
+import { ApiTags } from "@nestjs/swagger";
 
-
+@ApiTags('User')
 @Controller()
 export class UserController {
   constructor(
@@ -21,6 +22,7 @@ export class UserController {
   @Render('register')
   async registerRender() { }
 
+  
   @Post('register')    
   @UsePipes(ValidationPipe)
   @UseFilters(RegisterBadRequest)
@@ -36,7 +38,7 @@ export class UserController {
   @Render('login')
   async loginRender() { }
 
-  @Post('logout')
+  @Get('logout')
   @Render('login')
   async logout(
     @Res() response: Response
@@ -54,7 +56,7 @@ export class UserController {
   }
 
   @Post('addUser/:id')
-  @Render('home')
+  @Render('home') 
   async addUser(
     @Body('add_user') user: string,
     @Param('id') id: number,
@@ -68,6 +70,12 @@ export class UserController {
     const email = jwtData["email"];
     return this.accountService.getAccounts(email);
     // return data;
+  }
+
+  @Get('profile')
+  @Render('profile')
+  async getProfile(){
+    return 0;
   }
 
 

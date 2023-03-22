@@ -52,9 +52,9 @@ export class UserService {
       let info = await transporter.sendMail({
         from: '"jaydeeppatel3082001@gmail.com"',
         to: userdata.email,
-        subject: 'Expence Manager ',
-        text: 'Welcome to Expence Manager. This Website help you to manage your expences', // plain text body
-        html: `<p>Welcome to <b>Expence Manager</b>. This Website help you to manage your expences</p> `, // html body
+        subject: 'Expense Manager ',
+        text: 'Welcome to Expense Manager. This Website help you to manage your expense', // plain text body
+        html: `<p>Welcome to <b>Expense Manager</b>. This Website help you to manage your expenses</p> `, // html body
       });
       console.log('mail info :: ', info);
 
@@ -75,7 +75,7 @@ export class UserService {
 
   async addUser(email: string, id: number) {
     const uemail = email;
-
+ 
     const user = await this.userRepository.findOne({ where: { email: email }, relations: ['accounts'] });
     const account = await this.accountRepository.findOne({ where: { id: id }, relations: ['us'] });
     account.us = [user, ...account.us];

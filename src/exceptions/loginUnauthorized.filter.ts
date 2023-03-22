@@ -9,10 +9,11 @@ export class LoginUnauthorized implements ExceptionFilter {
     const request = ctx.getRequest<Request>();
     const status = exception.getStatus();
     const err = exception.getResponse();
-    // let msg = exception['response']['message'];
-
+    let msg = exception['response']['message'];
+    console.log(err);
+    
     return response
       .status(400)
-      .render('login', { msg: "Invalid email or password"  });
+      .render('login', { msg:'Invalid username or password'  });
   }
 }

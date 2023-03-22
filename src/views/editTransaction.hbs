@@ -137,7 +137,7 @@
               <form id="formAuthentication" class="mb-3 needs-validation" action="/tr/editTransaction/{{ transactions.id }}" method="post" >
                 <div class="mb-3">
                   <label for="transaction_type" class="form-label">Transaction type</label>
-                 
+
                   <select name="transaction_type" class="form-control" id="transaction_type" autofocus required >
                     <option selected="{{ transactions.transaction_type }}">{{ transactions.transaction_type }}</option>
                     {{#if_equals transactions.transaction_type "Income" }}
@@ -195,7 +195,7 @@
                 </div>
                 
                 <div class="mb-3">
-                  <button class="btn btn-primary d-grid w-100" type="submit">Edit Transaction </button>
+                  <input class="btn btn-primary d-grid w-100" type="submit" value="Edit Transaction "></input>
                 </div>
               </form>
 

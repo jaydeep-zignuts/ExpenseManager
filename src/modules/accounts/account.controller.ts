@@ -1,5 +1,6 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Render, Req, UseFilters, UseGuards, UsePipes, ValidationPipe } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query, Render, Req, UseFilters, UseGuards, UsePipes, ValidationPipe } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
+import { ApiTags } from "@nestjs/swagger";
 import { request, Request } from "express";
 import { AccountDto } from "src/dto/account.dto";
 import { UpdateAccountDto } from "src/dto/updateAccount.dto";
@@ -11,6 +12,7 @@ import { TransactionService } from "../transaction/transaction.service";
 import { UserService } from "../users/user.service";
 import { AccountService } from "./accounts.service";
 
+@ApiTags('Account')
 @UseGuards(JwtAuthGuard)
 @Controller('ac')
 export class AccountController{
@@ -96,9 +98,10 @@ export class AccountController{
     async editAccountName(
         @Param('id') id: number, 
         @Body() account: AccountDto,
-        @Req() req:Request
-
+        @Req() req:Request,
         ){        
+            console.log("hello edit");
+            
         const updateAccount = await this.accountService.editAccountName(id, account.account_name);
         const token = req.cookies['jwt'];
         const data1 = await this.jwtService.verify(token);
