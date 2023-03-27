@@ -20,5 +20,13 @@ export class UserDto{
     @IsNotEmpty({message: 'Password is required field'})
     @Length(8,16)
     password: string;
-  
+
+    @Length(10)
+    phoneno: number;
+
+    city: string
+
+    state: string
+
+    zipcode: number
 }

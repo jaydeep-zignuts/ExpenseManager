@@ -125,18 +125,16 @@
                       </g>
                     </svg>
                   </span>
-                  <span class="app-brand-text demo text-body fw-bolder">Sneat</span>
+                  <span class="app-brand-text demo text-body fw-bolder text-capitalize">Signup</span>
                 </a>
               </div>
               <!-- /Logo -->
-              <p class="mb-4">Make Your Expance Management Easy </p>
-             
+              <p class="mb-4">Make Your Expance Management Easy</p>
               <form id="formAuthentication" class="mb-3 needs-validation" action="/register" method="post" novalidate>
                 <div class="mb-3">
                   <label for="name" class="form-label">Name</label>
                   <input type="text"class="form-control" id="name" name="name" placeholder="Enter your name" autofocus 
                   />
-                  
                   <div class="invalid-feedback">
                     Name field is require!
                   </div>
@@ -158,6 +156,8 @@
                       name="password"
                       placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                       aria-describedby="password",
+                      minlength="8",
+                      maxlength="16"
                       required
                     />
                     <div class="invalid-feedback">
@@ -166,7 +166,6 @@
                     <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                   </div>
                 </div>
-
                 
                 <button class="btn btn-primary d-grid w-100">Sign up</button>
               </form>

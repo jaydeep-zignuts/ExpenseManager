@@ -13,6 +13,6 @@ export class AddAccountBadRequest implements ExceptionFilter {
 
     return response
       .status(400)
-      .render('addNewAccount', { msg:"Account Name is Require"  });
+      .render('addNewAccount', { msg:"Account Name is Require" });
   }
 }

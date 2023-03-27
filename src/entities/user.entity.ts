@@ -21,6 +21,17 @@ export class User extends BaseEntity {
     @Column()
     password: string;
 
+    @Column()
+    phoneno: number;
+
+    @Column()
+    city: string
+
+    @Column()
+    state: string
+
+    @Column()
+    zipcode: number
     // onetomany
     @OneToMany(() => Account, (account) => account.users)
     accounts: Account[]; 

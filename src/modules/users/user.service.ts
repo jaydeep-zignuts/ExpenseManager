@@ -8,17 +8,18 @@ import { Account } from "src/entities/account.entity";
 import * as nodemailer from 'nodemailer';
 import { request, response } from "express";
 import { JwtService } from "@nestjs/jwt";
+import { PassThrough } from "stream";
 
 
 
-@Injectable()
+@Injectable() 
 export class UserService {
   constructor(@InjectRepository(User) private userRepository: Repository<User>,
     @InjectRepository(Account) private accountRepository: Repository<Account>,
   private jwtService: JwtService
-  ) { }
+  ) { } 
 
-  async insertUser(user: UserDto) {
+  async insertUser(user: UserDto) { 
 
     const salt = await bcrypt.genSalt();
     const bcryptPassword = await bcrypt.hash(user.password, salt);
@@ -45,7 +46,7 @@ export class UserService {
         secure: false,
         auth: {
           user: 'jaydeeppatel3082001@gmail.com',
-          pass: 'gsgb evnw usxa oclb',
+          pass: 'gsgb evnw usxa oclb', 
         },
       });
 
@@ -71,11 +72,11 @@ export class UserService {
   async getAllUser(aid: number) {
     const allUsers = await this.userRepository.find();
     return { allUsers, aid }
-  }
+  }  
 
-  async addUser(email: string, id: number) {
-    const uemail = email;
- 
+  async addUser(email: string, id: number) { 
+    const uemail = email;   
+   
     const user = await this.userRepository.findOne({ where: { email: email }, relations: ['accounts'] });
     const account = await this.accountRepository.findOne({ where: { id: id }, relations: ['us'] });
     account.us = [user, ...account.us];
@@ -83,5 +84,41 @@ export class UserService {
     await user.save();
     await account.save();
    
+  }
+  async getUser(email: string) {
+    const user = await this.userRepository.findOne({ where: { email } });
+    return user;
+  }
+  async fillProfile(user: Partial<UserDto>,id:number){
+    const userData = await this.userRepository.update({id:id},{
+      name: user.name,
+      email: user.email,
+      phoneno:user.phoneno,  
+      city:user.city, 
+      state: user.state, 
+      zipcode:user.zipcode 
+    });  
+    console.log(userData);
+    return userData;  
+    
+  }
+ 
+  async changePassword(id:number, user: Partial<UserDto>){
+  
+    
+    const salt = await bcrypt.genSalt();
+    const bcryptPassword = await bcrypt.hash(user.password, salt);
+    console.log(salt, bcryptPassword);
+    const updatePassword = await this.userRepository.update({id: id},{password:bcryptPassword})
+    return updatePassword;
+  }
+
+  async forgetPassword(user:Partial<UserDto>){
+    const salt = await bcrypt.genSalt();
+    const bcryptPassword = await bcrypt.hash(user.password, salt);
+    console.log(salt, bcryptPassword);
+    const forgetPassword = await this.userRepository.update({email:user.email},{password:bcryptPassword})
+    return forgetPassword;
+
   }
 }
