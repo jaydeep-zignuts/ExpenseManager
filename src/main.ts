@@ -7,29 +7,29 @@ import * as hbs from 'hbs'
 import { HttpUnauthorizedExceptionFiletr } from './exceptions/httpUnauthorizedException.filter';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { doc } from 'prettier';
+import { doc } from 'prettier'; 
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, );
   await app.use(cookieParser());
   await app.enableCors({
     origin:'http://localhost:3000',
-    credentials: true
+    credentials: true  
   }) 
 
   app.setViewEngine('hbs');
   hbs.registerPartials(join(__dirname, "../src/", "/views/partials"));
   app.useStaticAssets(join(__dirname, '../src/' ,'assets'));
   app.setBaseViewsDir(join(__dirname,'../src/', 'views'));
-  //  (join(__dirname, '../src/','partials'));
-  
+  //  (join(__dirname, '../src/','partials')); 
+   
   hbs.registerHelper('if_equals', function(a, b, opts) {
     if (a !== b) {
         return opts.fn(this) 
     } else {
-        return opts.inverse(this)
+        return opts.inverse(this) 
     }
-  });
+  }); 
   hbs.registerPartials(__dirname + '/views');
 
   hbs.registerHelper('date', function(date) {

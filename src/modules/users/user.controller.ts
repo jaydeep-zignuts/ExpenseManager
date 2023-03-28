@@ -30,7 +30,7 @@ export class UserController {
   @UseFilters(RegisterBadRequest)
   @UseFilters(QueryFailedExceptionFilter)
   @Render('login')
-  async createUser(@Body() userData: UserDto) {
+  async createUser(@Body() userData: Partial<UserDto>) {
       const generateUser = await this.userService.insertUser(userData);
       return generateUser;
   }
@@ -40,19 +40,23 @@ export class UserController {
   async loginRender() { }
 
   @Get('logout')
-  @Render('login')
+  @Render('login') 
   async logout(
     @Res() response: Response
   ) {
     return response.clearCookie('jwt');
-  }
+  }   
   @UseGuards(JwtAuthGuard)
-  @Get('addUser/:id')
+  @Get('addUser/:id') 
   @Render('addUser')
-  async addUserToAccount(
-    @Param('id') aid: number
+  async addUserToAccount(  
+    @Param('id') aid: number, 
+    @Req() req:Request
   ) {
-    const allUsers = await this.userService.getAllUser(aid);
+    const token = req.cookies['jwt'];
+    const jwtData = await this.jwtService.verify(token);
+    const email = jwtData["email"];
+    const allUsers = await this.userService.getAllUser(aid, email);
     return allUsers;
   }
 
@@ -63,6 +67,8 @@ export class UserController {
     @Body('add_user') user: string,
     @Param('id') id: number,
     @Req() req:Request,
+    @Res() res:Response
+
   ) {
    
     const data = await this.userService.addUser(user, id);
@@ -70,10 +76,10 @@ export class UserController {
     const token = req.cookies['jwt'];
     const jwtData = await this.jwtService.verify(token);
     const email = jwtData["email"];
-    return this.accountService.getAccounts(email);
+    return this.accountService.getAccounts(email,res);
     // return data;
   }
- 
+  
   @UseGuards(JwtAuthGuard)
   @Get('profile')
   @Render('profile')
@@ -89,14 +95,16 @@ export class UserController {
   async fillProfile( 
     @Body() user: Partial<UserDto>,
     @Req() req: Request,
-    @Param('id') id:number
+    @Param('id') id:number,
+    @Res() res:Response
+
     ){  
     console.log(user);
     const profile= await this.userService.fillProfile(user,id);
     const token = req.cookies['jwt'];
     const jwtData = await this.jwtService.verify(token);
     const email = jwtData["email"];
-    return this.accountService.getAccounts(email);
+    return this.accountService.getAccounts(email,res);
     
   }
   
@@ -113,6 +121,8 @@ export class UserController {
   async updatePassword( 
     @Body() user: Partial<UserDto>,
     @Req() req: Request,
+    @Res() res:Response
+
     ){  
     const token = req.cookies['jwt'];
     const jwtData = await this.jwtService.verify(token);
@@ -122,7 +132,7 @@ export class UserController {
     console.log(user);
     
     const changePassword = await this.userService.changePassword(userData.id,user);
-    return this.accountService.getAccounts(email);
+    return this.accountService.getAccounts(email,res);
      
   }
 

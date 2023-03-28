@@ -1,7 +1,7 @@
-import { Body, Controller, Get, Param, Post, Render, Req, UseFilters, UseGuards, UsePipes, ValidationPipe } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Render, Req, Res, UseFilters, UseGuards, UsePipes, ValidationPipe } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { ApiTags } from "@nestjs/swagger";
-import { request, Request } from "express";
+import { request, Request, Response } from "express";
 import { AccountDto } from "src/dto/account.dto";
 import { AddAccountBadRequest } from "src/exceptions/addAccountBadRequest.filter";
 import { EditAccountBadRequest } from "src/exceptions/editAccountBadRequest.filter";
@@ -31,8 +31,9 @@ export class AccountController{
     @UseFilters(AddAccountBadRequest)
     @Render('home') 
     async newAccount(
-        @Body() accountName: AccountDto, 
-        @Req() request: Request
+        @Body() accountName: AccountDto,  
+        @Req() request: Request,
+        @Res() res:Response
     ){
         const token = request.cookies['jwt'];
         const data = await this.jwtService.verify(token);
@@ -42,13 +43,15 @@ export class AccountController{
         const newAccount = await this.accountService.createNewAccount(accountName,email)
 
 
-        return await this.accountService.getAccounts(email);
+        return await this.accountService.getAccounts(email,res);
     }
 
     @Get('getAll')
     @Render('home')
     async getAccounts(       
-         @Req() request: Request
+        @Req() request: Request,
+        @Res() res:Response
+
     ){
 
         const token = request.cookies['jwt'];
@@ -56,7 +59,7 @@ export class AccountController{
         const email = data['email'];
         console.log("Logged email",email);
         
-        const allAccount = this.accountService.getAccounts(email);
+        const allAccount = this.accountService.getAccounts(email,res);
         return allAccount;
     }
     
@@ -64,7 +67,9 @@ export class AccountController{
     @Render('home')
     async deleteAccount(
         @Param('id') id: number,
-        @Req() req:Request
+        @Req() req:Request,
+        @Res() res:Response
+
     ) {
         // const delTransaction= await this.accountService.deleteTransaction(id);
         // console.log("=======",delTransaction);
@@ -73,7 +78,7 @@ export class AccountController{
         const token = req.cookies['jwt'];
         const data1 = await this.jwtService.verify(token);
         const email = data1["email"];
-        return await this.accountService.getAccounts(email)
+        return await this.accountService.getAccounts(email,res)
     
     }
 
@@ -97,6 +102,8 @@ export class AccountController{
         @Param('id') id: number, 
         @Body() account: AccountDto,
         @Req() req:Request,
+        @Res() res:Response
+
         ){        
             console.log("hello edit");
             
@@ -104,7 +111,7 @@ export class AccountController{
         const token = req.cookies['jwt'];
         const data1 = await this.jwtService.verify(token);
         const email = data1["email"];
-        return await this.accountService.getAccounts(email);
+        return await this.accountService.getAccounts(email,res);
         // return updateAccount;
     }
 

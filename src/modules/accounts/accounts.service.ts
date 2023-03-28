@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { response } from "express";
+import { response,Response } from "express";
 import { AccountDto } from "src/dto/account.dto";
 import { TransactionDto } from "src/dto/transaction.dto";
 import { UserDto } from "src/dto/user.dto";
@@ -32,27 +32,36 @@ export class AccountService{
     
 
     }
-
-    async getAccounts(email:string){
+ 
+    async getAccounts(email:string, res:Response){
         console.log("Account of loggwtd in ser", email);
         
         const user = await this.userRepository.findOne({ where: { email:email }, relations:['accounts'] });
         const userid = user.id;
-        console.log(user);
+        const role = user.role;
+        console.log(user.role, "userrle"); 
         
-        // const getaccountid=await this.accountRepository.find({where: { id: user.id }})
-        // const allAccount = await this.accountRepository.find({where:{id : userid}});
-        const allAccount = await this.accountRepository
-        .createQueryBuilder('ac').
-        leftJoin('ac.users', 'acc')
-        .where(`acc.id = ${userid}`).getMany()
-        
-        console.log("all Acount >>>>>>>>",allAccount);
-        const addedByUser = await this.accountRepository.createQueryBuilder('acus').leftJoin('acus.us','ac_user').where(`ac_user.id=${userid}`).getMany();
-        console.log(addedByUser);
-        
+        if(user.role === 'user'){
 
-        return { allAccount, addedByUser };    
+            const allAccount = await this.accountRepository
+            .createQueryBuilder('ac').
+            leftJoin('ac.users', 'acc')
+            .where(`acc.id = ${userid}`).getMany()
+            
+            console.log("all Acount >>>>>>>>",allAccount);
+            const addedByUser = await this.accountRepository.createQueryBuilder('acus').leftJoin('acus.us','ac_user').where(`ac_user.id=${userid}`).getMany();
+            console.log(addedByUser);
+            
+    
+            return { allAccount, addedByUser, role };    
+        }else{
+            console.log("inside else");
+            
+            const adminAllUser = await this.userRepository.find({});
+            console.log("admin all account", adminAllUser);
+            
+            return {adminAllUser, role};
+        }
     }
     async deleteAccount(aid: number){
         const acc= await this.accountRepository.delete(aid);

@@ -130,7 +130,9 @@
                   <select name="add_user" id="add_user" class="form-control">
                     <option label="select email to add"></option>
                     {{#each allUsers}}
+                   
                     <option value="{{ this.email }}">{{ this.email }}</option>
+                    
                     {{/each}}
                   </select>
                   <div class="invalid-feedback">
@@ -139,7 +141,7 @@
                 </div>
                 
                 <div class="mb-3">
-                  <button class="btn btn-primary d-grid w-100" type="submit">Add User</button>
+                  <button class="btn btn-primary d-grid w-100" type="submit" onclick="return alert('user Added')">Add User</button>
                 </div>
               </form>
             </div>
@@ -185,6 +187,13 @@
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
-    
+    <script>
+      function alertAdd(){
+        " <div class='alert alert-warning alert-dismissible fade show' role='alert'>"
+       " <strong>Holy guacamole!</strong> You should check in on some of those fields below."
+       " <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>"
+      "</div>"
+      }
+    </script>
   </body>
 </html>

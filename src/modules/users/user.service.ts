@@ -19,7 +19,7 @@ export class UserService {
   private jwtService: JwtService
   ) { } 
 
-  async insertUser(user: UserDto) { 
+  async insertUser(user: Partial<UserDto>) { 
 
     const salt = await bcrypt.genSalt();
     const bcryptPassword = await bcrypt.hash(user.password, salt);
@@ -69,9 +69,9 @@ export class UserService {
     return await this.userRepository.findOne({ where: { email } });
   }
 
-  async getAllUser(aid: number) {
-    const allUsers = await this.userRepository.find();
-    return { allUsers, aid }
+  async getAllUser(aid: number, email:string) {
+    const allUsers = await this.userRepository.find();    
+    return { allUsers, aid, email }
   }  
 
   async addUser(email: string, id: number) { 
@@ -84,7 +84,7 @@ export class UserService {
     await user.save();
     await account.save();
    
-  }
+  } 
   async getUser(email: string) {
     const user = await this.userRepository.findOne({ where: { email } });
     return user;
@@ -121,4 +121,8 @@ export class UserService {
     return forgetPassword;
 
   }
+  async getUserById(id:number){
+    const admin=await this.userRepository.findOne({where:{id}});
+    return admin;
+}
 }

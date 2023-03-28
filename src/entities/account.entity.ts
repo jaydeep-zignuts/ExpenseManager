@@ -2,7 +2,7 @@ import { IsNotEmpty } from "class-validator";
 import { BaseEntity, Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Transaction } from "./transaction.entity";
 import { User } from "./user.entity";
-
+ 
 @Entity('account')
 export class Account extends BaseEntity{
     

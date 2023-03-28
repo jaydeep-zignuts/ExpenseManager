@@ -18,24 +18,28 @@ export class User extends BaseEntity {
     email: string;
 
     @ApiProperty({ description: 'Hashed user password' })
-    @Column()
+    @Column() 
     password: string;
 
-    @Column()
+    @Column({default:0})
     phoneno: number;
 
-    @Column()
+    @Column({default:""})
     city: string
 
-    @Column()
+    @Column({default:""})
     state: string
 
-    @Column()
+    @Column({default:0})
     zipcode: number
+
+    @Column({default:'user'})
+    role: string;
     // onetomany
     @OneToMany(() => Account, (account) => account.users)
     accounts: Account[]; 
 
+    
     // @ManyToMany(()=>Account, (ac)=>ac.account_users)
     // @JoinTable({name: "accounts_users"})
     // users_acc: Account[]

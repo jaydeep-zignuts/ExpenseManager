@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsEmail, IsNotEmpty, Length, MaxLength, MinLength } from "class-validator";
-
+import { IsEmail, IsNotEmpty, Length, Matches, MaxLength, MinLength } from "class-validator";
+const Mobile_Rule=/^(\+\d{1,3}[- ]?)?\d{10}$/
 
 export class UserDto{
     @ApiProperty({description: 'Id of the user' , example:"1"})
@@ -18,11 +18,12 @@ export class UserDto{
 
     @ApiProperty({ description: 'Hashed user password' })
     @IsNotEmpty({message: 'Password is required field'})
-    @Length(8,16)
+    @Length(8,16)   
     password: string;
 
-    @Length(10)
-    phoneno: number;
+    @Length(10,10)
+    @Matches(Mobile_Rule,{message:"please enter valid mobile no"})
+    phoneno: number; 
 
     city: string
 

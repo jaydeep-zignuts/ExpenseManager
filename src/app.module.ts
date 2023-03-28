@@ -14,6 +14,7 @@ import { APP_FILTER } from '@nestjs/core';
 import { HttpUnauthorizedExceptionFiletr } from './exceptions/httpUnauthorizedException.filter';
 import { JwtAuthMiddleware } from './middleware/jwtAuth.middleware';
 import { TransactionController } from './modules/transaction/transaction.controller';
+import { AdminModule } from './modules/admin/admin.module';
 
 
 @Module({
@@ -28,7 +29,8 @@ import { TransactionController } from './modules/transaction/transaction.control
     }),
     EventEmitterModule.forRoot(),
     forwardRef( ()=> TransactionModule ),
-    forwardRef(()=> AuthModule)
+    forwardRef(()=> AuthModule),
+    AdminModule
     
   ],
   controllers: [AppController],

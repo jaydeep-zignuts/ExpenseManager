@@ -5,7 +5,7 @@ import { JwtService } from '@nestjs/jwt';
 import { UserDto } from 'src/dto/user.dto';
 import { request, response } from 'express';
 import { AccountService } from '../accounts/accounts.service';
-
+  
 @Injectable()
 export class AuthService {
     constructor(private userService: UserService, private jwtService: JwtService, private accountService: AccountService) { }
@@ -16,7 +16,7 @@ export class AuthService {
 
             if (!(await bcrypt.compare(password, userdata.password))) throw new UnauthorizedException();
 
-            return userdata;
+            return userdata; 
        
     }
 
@@ -26,8 +26,16 @@ export class AuthService {
         const jwt = this.jwtService.sign({
             email: user.email,
         })
-      
-        response.cookie('jwt', jwt, { httpOnly: true });
-        return this.accountService.getAccounts(user.email);
+        
+        response.cookie('jwt', jwt, { httpOnly: true });        
+        const userdata= await this.userService.getUser(user.email);
+        console.log("My User",userdata);
+        // if(userdata.role=="user"){
+            // return await response.redirect("profile");
+            return await this.accountService.getAccounts(user.email,response);
+
+        // }else{
+        //     // return await this.accountService.getAccounts(user.email);
+        // } 
     }
 }

@@ -5,10 +5,10 @@ import { LoginBadRequest } from 'src/exceptions/loginBadRequest.filter';
 import { LoginUnauthorized } from 'src/exceptions/loginUnauthorized.filter';
 import { RegisterBadRequest } from 'src/exceptions/registerBadRequest.filter';
 import { AuthService } from './auth.service';
-import { LocalAuthGuard } from './local-auth.guard';
+import { LocalAuthGuard } from './local-auth.guard'; 
 
 @ApiTags('Auth')
-@Controller('auth')
+@Controller('auth') 
 export class AuthController {
 
     constructor(private authService: AuthService) { }
