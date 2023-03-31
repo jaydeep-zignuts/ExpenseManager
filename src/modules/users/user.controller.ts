@@ -140,6 +140,10 @@ export class UserController {
   @Get('renderForgetPassword')
   async renderForgetPassword(){}
 
+  
+
+
+
   @Render('login')
   @Post('forgetPassword')
   async forgetPassword( 
@@ -151,5 +155,5 @@ export class UserController {
     
   }
   
-
+ 
 }  

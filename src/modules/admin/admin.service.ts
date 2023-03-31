@@ -20,6 +20,18 @@ export class AdminService{
     }
     async getTransactions(){
         const transactions =  await this.transactionRepository.find({relations:['tr_accounts','tr_accounts.users']});
-        return {transactions}
+        const tranIncome = await this.transactionRepository.createQueryBuilder('i').select("SUM(transaction_amount) as totalIncome").where(`transaction_type = 'income'`).execute();
+        const tranExpense = await this.transactionRepository.createQueryBuilder('i').select("SUM(transaction_amount) as totalExpense").where(`transaction_type = 'expense'`).execute();
+        const tranTransfer = await this.transactionRepository.createQueryBuilder('i').select("SUM(transaction_amount) as totalTransfer").where(`transaction_type = 'transfer'`).execute();
+
+        const totTransactionIncome = tranIncome.pop()['totalIncome'];
+        const totTransactionExpense = tranExpense.pop()['totalExpense'];
+        const totTransactionTransfer = tranTransfer.pop()['totalTransfer'];
+
+        console.log(totTransactionIncome,totTransactionExpense,totTransactionTransfer);
+    
+       
+         
+        return {transactions, totTransactionIncome,totTransactionExpense,totTransactionTransfer}
     }
 }

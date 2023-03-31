@@ -11,7 +11,7 @@ export class QueryFailedExceptionFilter implements ExceptionFilter{
 
         console.log('exx', exception);
     
-        return response.status(500).render('400', {msg: exception.message});
+        return response.status(500).render('400', {msg: "User is Already register. Please login to continue"});
     }
 
 }

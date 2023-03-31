@@ -1,12 +1,14 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { response } from "express";
+import { response, Request, Response } from "express";
 import { AccountDto } from "src/dto/account.dto";
 import { TransactionDto } from "src/dto/transaction.dto";
 import { Account } from "src/entities/account.entity";
 import { Transaction } from "src/entities/transaction.entity";
 import { User } from "src/entities/user.entity";
 import { Repository } from "typeorm";
+import * as PDFDocument from 'pdfkit'
+import * as fs from 'fs'
 
 @Injectable()
 export class TransactionService {
@@ -42,13 +44,14 @@ export class TransactionService {
     }
 
     async getTransactions(tid: number) {
+        console.log("My accid", tid);  
         const transactions = await this.transactionRepository.createQueryBuilder('t').leftJoinAndSelect('t.tr_accounts', 'tacc').where(`tacc.id = ${tid}`).getMany()
         const tra = transactions.reverse()
-       
         
-        return { tra };
+        
+        return { tra, tid };
     }
-
+ 
     async deleteTransaction(id: number) {
         
         return await this.transactionRepository.delete(id);
@@ -59,7 +62,7 @@ export class TransactionService {
  
         const transactions = tr;
         return { transactions } 
-
+ 
     }
     async editTransaction(tid: number, ttype: string, tamt: number, tdesc: string) {
 
@@ -76,5 +79,21 @@ export class TransactionService {
                  
         return editTransaction;
     }
-
-}
+    async getListTransaction(req:Request, res:Response,id:number){
+        const transactions = await this.transactionRepository
+                                        .createQueryBuilder('t')
+                                        .leftJoinAndSelect('t.tr_accounts', 'tacc')
+                                        .where(`tacc.id = ${id}`)
+                                        .getMany();
+        console.log(transactions);
+        
+        const doc = new PDFDocument(); 
+        
+        doc.pipe(fs.createWriteStream('output.pdf'));
+        doc.fontSize(25).text(JSON.stringify(transactions));
+        doc.end();
+        
+        return {tra:transactions};
+      } 
+ 
+} 

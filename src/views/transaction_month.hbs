@@ -8,7 +8,7 @@
   <meta name="viewport"
     content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-  <title>Home</title>
+  <title>Show Transaction</title>
 
   <meta name="description" content="" />
 
@@ -46,64 +46,21 @@
       <!-- Menu -->
 
       <!-- / Menu -->
-      {{> adminAside}}
-
+      {{> aside}}
       <div class="layout-page">
         <!-- Navbar -->
-       {{> adminNav}}
-
-        
-
+       {{> nav}}
         <!-- / Navbar -->
 
         <!-- Content wrapper -->
         <div class="content-wrapper">
-
           <div class="container-xxl flex-grow-1 container-p-y">
-            <div class="row">
-            <div class="col-md-4 col-lg-4 order-2 mb-4 ">
-                <div class="card h-100">
-                  <div class="card-header d-flex align-items-center justify-content-between ">
-                    <h4 class="text-primary m-0 p-0">Total Income</h4>
-                  </div>
-                  <div class="card-body">
-                     {{totTransactionIncome}}
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-4 col-lg-4 order-2 mb-4 ">
-                <div class="card h-100"> 
-                  <div class="card-header d-flex align-items-center justify-content-between ">
-                    <h4 class="text-primary m-0 p-0">Total Expense</h4>
-                  </div>
-                  <div class="card-body">
-                     {{totTransactionExpense}}
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-4 col-lg-4 order-2 mb-4 ">
-                <div class="card h-100">
-                  <div class="card-header d-flex align-items-center justify-content-between ">
-                    <h4 class="text-primary m-0 p-0">Total Transfer</h4>
-                  </div>
-                  <div class="card-body">
-                     {{totTransactionTransfer}}
-                  </div>
-                </div>
-              </div>
-              </div>
-              <div class="row">
-                <div class="col col-md-12 col-lg-12">
-                  <div class="card">
-                <h5 class="card-header text-primary">All Transactions</h5>
-                <div class="table-responsive text-nowrap">
-                
+            <div class="card">
+              <h5 class="card-header text-primary">All Transactions</h5>
+              <div class="table-responsive text-nowrap">
                 <table class="table table-hover">
                   <thead>
                     <tr class="text-center">
-                        <th>Transaction Id</th>
-                        <th>Account Id</th>
-                        <th>User Id</th>
                       <th>Transaction Type</th>
                       <th>Transaction Amount</th>
                       <th>Description</th>
@@ -111,49 +68,32 @@
                     </tr>
                   </thead>
                   <tbody class="table-border-bottom-0">
-                    {{#each transactions }}
+                    {{#each tra }}
                     <tr class="text-center">
-                        <td>{{this.id}}</td>
-                        <td>{{this.tr_accounts.id}}</td>
-                        <td>{{this.tr_accounts.users.id}}</td>
-
-                      <td><i class="fab fa-angular fa-lg text-danger me-3"></i> {{ this.transaction_type }}</td>
+                      <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>{{ this.transaction_type }}</strong></td>
                       <td>{{ this.transaction_amount }}</td>
                       <td>{{ this.description }}</td>
                       <td class="date">{{date this.createdAt }}</td>
                       {{!-- {{#if_equals transactions.transaction_type "Income" }} --}}
-                      
+                     
                     </tr>
                 {{/each}}
                     
                   </tbody>
 
                 </table>
-                    {{#unless transactions}} 
+                    {{#unless tra}}
                     <h2 class="text-center m-4 p-2 ">No Transactions</h2>
                     {{/unless}}
-</div>
+
               </div>
             </div>
-              </div>
-            
           </div>
         </div>
         <!-- / Content -->
 
         <!-- Footer -->
-        <footer class="content-footer footer bg-footer-theme">
-          <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
-            {{!-- <div class="mb-2 mb-md-0">
-              ©
-              <script>
-              </script>
 
-              <a href="https://themeselection.com" target="_blank" class="footer-link fw-bolder">ThemeSelection</a>
-            </div> --}}
-
-          </div>
-        </footer>
         <!-- / Footer -->
 
         <div class="content-backdrop fade"></div>
@@ -166,6 +106,7 @@
   <!-- Overlay -->
   <div class="layout-overlay layout-menu-toggle"></div>
   </div>
+
   <!-- / Layout wrapper -->
   <!-- build:js assets/vendor/js/core.js -->
   <script src="/vendor/libs/jquery/jquery.js"></script>
@@ -187,7 +128,7 @@
 
   <!-- Place this tag in your head or just before your close body tag. -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
+
 </body>
 
 </html>
-

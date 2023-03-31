@@ -284,6 +284,7 @@
                   </thead>
                   <tbody class="table-border-bottom-0">
                     {{#each adminAllUser }}
+                    {{#if_equals this.role "admin"}}
                     <tr class="text-center">
                       <td>{{this.id}}</td>
                       <td>{{this.name}}</td>
@@ -293,6 +294,7 @@
                       <td>{{ this.state }}</td>
 
                     </tr>
+                    {{/if_equals}}
                     {{/each}}
 
                   </tbody>

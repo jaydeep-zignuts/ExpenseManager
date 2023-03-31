@@ -7,13 +7,12 @@ import { RegisterBadRequest } from 'src/exceptions/registerBadRequest.filter';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './local-auth.guard'; 
 
-@ApiTags('Auth')
-@Controller('auth') 
+@ApiTags('Auth') 
+@Controller('auth')  
 export class AuthController {
 
     constructor(private authService: AuthService) { }
-
-    @UseGuards(LocalAuthGuard)
+    @UseGuards(LocalAuthGuard) 
     @Post('login')
     @UseFilters(LoginUnauthorized)
     @UseFilters(LoginBadRequest)

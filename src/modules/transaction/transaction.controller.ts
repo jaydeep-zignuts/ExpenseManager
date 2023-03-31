@@ -56,6 +56,7 @@ export class TransactionController {
         return await this.accountService.getAccounts(email,res)
         // return newTransaction;
     }
+
     @Get('showTransaction/:id')
     @Render('showTransaction')
     async showTransactions(
@@ -121,4 +122,16 @@ export class TransactionController {
         return await this.accountService.getAccounts(email,res);
          
     }
+    @Render('transaction_month')
+  @Get('genListTransaction/:id')
+  async getListTransaction(
+    @Req() req: Request,
+    @Res() res:Response,
+    @Param('id') id: number
+
+  ){
+    const acda = await this.transactionService.getAccountById(id);
+
+    return await this.transactionService.getListTransaction( req, res, acda.acid);
+  }
 }

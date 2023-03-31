@@ -9,8 +9,7 @@ import * as nodemailer from 'nodemailer';
 import { request, response } from "express";
 import { JwtService } from "@nestjs/jwt";
 import { PassThrough } from "stream";
-
-
+import { TransactionDto } from "src/dto/transaction.dto";
 
 @Injectable() 
 export class UserService {
@@ -124,5 +123,6 @@ export class UserService {
   async getUserById(id:number){
     const admin=await this.userRepository.findOne({where:{id}});
     return admin;
-}
+  } 
+ 
 }
