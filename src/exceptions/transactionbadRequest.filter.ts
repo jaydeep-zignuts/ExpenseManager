@@ -1,4 +1,10 @@
-import { ExceptionFilter, Catch, ArgumentsHost, HttpException, BadRequestException } from '@nestjs/common';
+import {
+  ExceptionFilter,
+  Catch,
+  ArgumentsHost,
+  HttpException,
+  BadRequestException,
+} from '@nestjs/common';
 import { Request, Response } from 'express';
 
 @Catch(BadRequestException)
@@ -12,10 +18,7 @@ export class TransactionBadRequest implements ExceptionFilter {
     let msg = exception['response']['message'];
     let ar = [...msg];
     console.log(ar);
-    
-   
-    return response
-      .status(400)
-      .render('addTransaction', { msg: ar  });
+
+    return response.status(400).render('addTransaction', { msg: ar });
   }
 }

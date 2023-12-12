@@ -12,21 +12,21 @@ import { TransactionController } from './transaction.controller';
 import { TransactionService } from './transaction.service';
 
 @Module({
-    imports: [
-        forwardRef( ()=> AccountsModule ),
-        forwardRef( ()=> UsersModule ),
+  imports: [
+    forwardRef(() => AccountsModule),
+    forwardRef(() => UsersModule),
 
-        TypeOrmModule.forFeature([User, Account, Transaction] ), 
-        JwtModule.register({
-            secret: 'secret',
-            signOptions: { expiresIn: '1d'}
-        }),
-        EventEmitterModule.forRoot({
-            newListener: true,
-        })
-    ],
-    providers: [TransactionService],
-    controllers: [TransactionController],
-    exports:[TransactionService]
+    TypeOrmModule.forFeature([User, Account, Transaction]),
+    JwtModule.register({
+      secret: 'secret',
+      signOptions: { expiresIn: '1d' },
+    }),
+    EventEmitterModule.forRoot({
+      newListener: true,
+    }),
+  ],
+  providers: [TransactionService],
+  controllers: [TransactionController],
+  exports: [TransactionService],
 })
 export class TransactionModule {}

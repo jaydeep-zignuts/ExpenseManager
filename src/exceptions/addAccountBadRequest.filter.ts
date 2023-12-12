@@ -1,4 +1,10 @@
-import { ExceptionFilter, Catch, ArgumentsHost, HttpException, BadRequestException } from '@nestjs/common';
+import {
+  ExceptionFilter,
+  Catch,
+  ArgumentsHost,
+  HttpException,
+  BadRequestException,
+} from '@nestjs/common';
 import { Request, Response } from 'express';
 
 @Catch(BadRequestException)
@@ -13,6 +19,6 @@ export class AddAccountBadRequest implements ExceptionFilter {
 
     return response
       .status(400)
-      .render('addNewAccount', { msg:"Account Name is Require" });
+      .render('addNewAccount', { msg: 'Account Name is Require' });
   }
 }

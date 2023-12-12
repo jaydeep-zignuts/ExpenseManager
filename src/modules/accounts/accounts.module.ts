@@ -10,19 +10,19 @@ import { AccountController } from './account.controller';
 import { AccountService } from './accounts.service';
 
 @Module({
-    imports: [ 
-        forwardRef(()=> UsersModule ), 
-        forwardRef( ()=> TransactionModule ),
+  imports: [
+    forwardRef(() => UsersModule),
+    forwardRef(() => TransactionModule),
 
-        TypeOrmModule.forFeature([User, Account, Transaction] ), 
-        JwtModule.register({
-            secret: 'secret',
-            signOptions: { expiresIn: '1d'}
-        }),
-    ],
+    TypeOrmModule.forFeature([User, Account, Transaction]),
+    JwtModule.register({
+      secret: 'secret',
+      signOptions: { expiresIn: '1d' },
+    }),
+  ],
 
-    providers: [AccountService],
-    controllers: [AccountController],
-    exports: [AccountService]
+  providers: [AccountService],
+  controllers: [AccountController],
+  exports: [AccountService],
 })
 export class AccountsModule {}
